@@ -1,0 +1,13 @@
+name: build, deploy mvc in main server
+on: 
+  push: 
+    branches:
+      - main
+jobs:
+  build_docker:
+    name: build and push to docker hub
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: docker build
+        run: docker build -t fadilahonespot/simple-mvc:1.1.0

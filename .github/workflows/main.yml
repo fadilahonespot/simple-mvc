@@ -41,4 +41,4 @@ jobs:
             StrictHostKeyChecking=no
           END
       - name: login EC2 + docker pull + running container
-        run: ssh staging 'docker rm -f $(docker ps -a -q) && docker pull fadilahonespot/simple-mvc:1.1.0 && docker run -d -p 8000:8000 --name simpe-mvc-apps fadilahonespot/simple-mvc:1.1.0' 
+        run: ssh staging 'docker pull fadilahonespot/simple-mvc:1.1.0 && docker run -d -p 8000:8000 --name simpe-mvc-apps fadilahonespot/simple-mvc:1.1.0' 

@@ -31,15 +31,15 @@ jobs:
 
       - name: Set up SSH keys
         run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/fadilah.pem
-          chmod 600 ~/.ssh/fadilah.pem
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
+          chmod 600 key.pem
 
       - name: SSH into EC2 and deploy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ~/.ssh/fadilah.pem
+          key: ./key.pem
           script: |
             # Pull the Docker image from the registry
             docker pull fadilahonespot/simple-mvc:1.1.0

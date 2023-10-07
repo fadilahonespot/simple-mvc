@@ -65,8 +65,6 @@ jobs:
             IdentityFile ~/.ssh/fadilah.pem
             StrictHostKeyChecking=no
           END
-      - name: Set permission execute script
-        run: chmod +x start_container.sh
       - name: run script deployment
         run: |
           ssh staging 'docker pull $DOCKER_IMAGE && docker stop $DOCKER_CONTAINER && docker rm $DOCKER_CONTAINER && docker run -d -p $PORT --name $DOCKER_CONTAINER $DOCKER_IMAGE'

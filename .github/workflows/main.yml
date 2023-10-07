@@ -57,5 +57,7 @@ jobs:
             IdentityFile ~/.ssh/fadilah.pem
             StrictHostKeyChecking=no
           END
-      - name: docker pull and running container
-        run: ssh staging 'docker rm -f $(docker ps -a -q) && docker pull fadilahonespot/simple-mvc:1.1.0 && docker run -d -p 8000:8000 --name simpe-mvc-apps fadilahonespot/simple-mvc:1.1.0' 
+      - name: Set permission execute script
+        run: chmod +x start_container.sh
+      - name: run script deployment
+        run: ./start_container.sh

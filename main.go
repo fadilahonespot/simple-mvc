@@ -7,9 +7,12 @@ import (
 
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/labstack/echo"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	godotenv.Load()
+	
 	db := config.InitDB()
 	userController := controller.SetupUserControler(db)
 	blogController := controller.SetupBlogControler(db)

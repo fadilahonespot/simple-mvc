@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"os"
 	"simple-mvc/model"
 
 	"github.com/jinzhu/gorm"
@@ -10,11 +11,11 @@ import (
 func InitDB() *gorm.DB {
 
 	config := model.Config{
-		DB_Username: "fadilah",
-		DB_Password: "fadilah123",
-		DB_Port:     "3306",
-		DB_Host:     "db4free.net",
-		DB_Name:     "fadilah_db",
+		DB_Username: os.Getenv("DB_USERNAME"),
+		DB_Password: os.Getenv("DB_PASSWORD"),
+		DB_Port:     os.Getenv("DB_PORT"),
+		DB_Host:     os.Getenv("DB_HOST"),
+		DB_Name:     os.Getenv("DB_NAME"),
 	}
 
 	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",

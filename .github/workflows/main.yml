@@ -35,7 +35,7 @@ jobs:
       - name: docker build
         run: docker build -t fadilahonespot/simple-mvc:1.1.0 . 
 
-      - name: Login to Docker Hub
+      - name: login to docker hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -67,8 +67,5 @@ jobs:
           END
       - name: run script deployment
         run: |
-          DOCKER_IMAGE=fadilahonespot/simple-mvc:1.1.0
-          DOCKER_CONTAINER=simpe-mvc-apps
-          PORT=8000:8000
-          ssh staging 'docker pull $DOCKER_IMAGE && docker stop $DOCKER_CONTAINER && docker rm $DOCKER_CONTAINER && docker run -d -p $PORT --name $DOCKER_CONTAINER $DOCKER_IMAGE'
+          ssh staging 'docker pull fadilahonespot/simple-mvc:1.1.0 && docker stop simpe-mvc-apps && docker rm simpe-mvc-apps && docker run -d -p 8000:8000 --name simpe-mvc-apps fadilahonespot/simple-mvc:1.1.0'
 

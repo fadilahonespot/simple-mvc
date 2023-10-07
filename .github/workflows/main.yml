@@ -71,7 +71,7 @@ jobs:
         run: |
           ssh staging 'docker pull $DOCKER_IMAGE && docker stop $DOCKER_CONTAINER && docker rm $DOCKER_CONTAINER && docker run -d -p $PORT --name $DOCKER_CONTAINER $DOCKER_IMAGE'
         env:
-          DOCKER_IMAGE=fadilahonespot/simple-mvc:1.1.0
-          DOCKER_CONTAINER=simpe-mvc-apps
-          PORT=8000:8000
+          DOCKER_IMAGE: fadilahonespot/simple-mvc:1.1.0
+          DOCKER_CONTAINER: simpe-mvc-apps
+          PORT: 8000:8000
 

@@ -56,6 +56,6 @@ jobs:
             User $SSH_USER
             IdentityFile ~/.ssh/fadilah.pem
             StrictHostKeyChecking=no
-          END      
+          END
       - name: docker pull and running container
         run: ssh staging 'docker rm -f $(docker ps -a -q) && docker pull fadilahonespot/simple-mvc:1.1.0 && docker run -d -p 8000:8000 --name simpe-mvc-apps fadilahonespot/simple-mvc:1.1.0' 

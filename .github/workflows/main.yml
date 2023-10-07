@@ -10,10 +10,10 @@ jobs:
     steps:
       - name: create .env file
         run: |
-          echo "DB_HOST=$DB_HOST" > .env
-          echo "DB_PORT=$DB_PORT" >> .env
-          echo "DB_USERNAME=$DB_USERNAME" >> .env
-          echo "DB_PASSWORD=$DB_PASSWORD" >> .env
+          echo "DB_HOST=$DB_HOST" >  app/.env
+          echo "DB_PORT=$DB_PORT" >>  app/.env
+          echo "DB_USERNAME=$DB_USERNAME" >>  app/.env
+          echo "DB_PASSWORD=$DB_PASSWORD" >>  app/.env
           echo "DB_NAME=$DB_NAME" >> .env
         shell: bash
         env:

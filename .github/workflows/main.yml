@@ -4,33 +4,33 @@ on:
     branches:
       - main
 jobs:
-  create_env_file:
-    name: import env file
-    runs-on: ubuntu-latest
-    steps:
-      - name: create .env file
-        run: |
-          mkdir /app
-          echo "DB_HOST=$DB_HOST" >  app/.env
-          echo "DB_PORT=$DB_PORT" >>  app/.env
-          echo "DB_USERNAME=$DB_USERNAME" >>  app/.env
-          echo "DB_PASSWORD=$DB_PASSWORD" >>  app/.env
-          echo "DB_NAME=$DB_NAME" >> .env
-        shell: bash
-        env:
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_PORT: ${{ secrets.DB_PORT }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_NAME: ${{ secrets.DB_NAME }}
+  # create_env_file:
+  #   name: import env file
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: create .env file
+  #       run: |
+  #         mkdir /app
+  #         echo "DB_HOST=$DB_HOST" >  app/.env
+  #         echo "DB_PORT=$DB_PORT" >>  app/.env
+  #         echo "DB_USERNAME=$DB_USERNAME" >>  app/.env
+  #         echo "DB_PASSWORD=$DB_PASSWORD" >>  app/.env
+  #         echo "DB_NAME=$DB_NAME" >> .env
+  #       shell: bash
+  #       env:
+  #         DB_HOST: ${{ secrets.DB_HOST }}
+  #         DB_PORT: ${{ secrets.DB_PORT }}
+  #         DB_USERNAME: ${{ secrets.DB_USERNAME }}
+  #         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+  #         DB_NAME: ${{ secrets.DB_NAME }}
 
-      - name: show contents of .env
-        run: cat .env
+  #     - name: show contents of .env
+  #       run: cat .env
 
   build_docker:
     name: build and push to docker hub
     runs-on: ubuntu-latest
-    needs: create_env_file
+    # needs: create_env_file
     steps:
       - uses: actions/checkout@v3
       - name: docker build
@@ -68,5 +68,11 @@ jobs:
           END
       - name: run script deployment
         run: |
-          ssh staging 'docker pull fadilahonespot/simple-mvc:1.1.0 && docker stop simpe-mvc-apps && docker rm simpe-mvc-apps && docker run -d -p 8000:8000 --name simpe-mvc-apps fadilahonespot/simple-mvc:1.1.0'
+          ssh staging 'docker pull fadilahonespot/simple-mvc:1.1.0 && docker stop simpe-mvc-apps && docker rm simpe-mvc-apps && docker run -d -p 8000:8000 --name simpe-mvc-apps -e DB_HOST=$DB_HOST -e DB_PORT=$DB_PORT -e DB_USERNAME=$DB_USERNAME -e DB_PASSWORD=$DB_PASSWORD -e DB_NAME=$DB_NAME fadilahonespot/simple-mvc:1.1.0'
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
 

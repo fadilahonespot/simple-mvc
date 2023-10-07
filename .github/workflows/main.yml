@@ -4,22 +4,28 @@ on:
     branches:
       - main
 jobs:
-  create_env:
+  create_env_file:
     name: import env file
     runs-on: ubuntu-latest
     steps:
-      - name: Make envfile
-        uses: SpicyPizza/create-envfile@v2.0
-        with:
-          envkey_DEBUG: false
-          envkey_DB_HOST: ${{ secrets.DB_HOST }}
-          envkey_DB_PORT: ${{ secrets.DB_PORT }}
-          envkey_DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          envkey_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          envkey_DB_NAME: ${{ secrets.DB_NAME }}
-          file_name: .env
-          fail_on_empty: false
-          sort_keys: false
+      - name: create .env file
+        run: |
+          echo "DB_HOST=$DB_HOST" > .env
+          echo "DB_PORT=$DB_PORT" >> .env
+          echo "DB_USERNAME=$DB_USERNAME" >> .env
+          echo "DB_PASSWORD=$DB_PASSWORD" >> .env
+          echo "DB_NAME=$DB_NAME" >> .env
+        shell: bash
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+
+      - name: show contents of .env
+        run: cat .env
+
   build_docker:
     name: build and push to docker hub
     runs-on: ubuntu-latest
@@ -27,12 +33,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: docker build
-        run: docker build -t fadilahonespot/simple-mvc:1.1.0 .     
+        run: docker build -t fadilahonespot/simple-mvc:1.1.0 . 
+
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: push to docker hub
         run: docker push fadilahonespot/simple-mvc:1.1.0
   deploy: 
@@ -60,4 +68,10 @@ jobs:
       - name: Set permission execute script
         run: chmod +x start_container.sh
       - name: run script deployment
-        run: ./start_container.sh
+        run: |
+          ssh staging 'docker pull $DOCKER_IMAGE && docker stop $DOCKER_CONTAINER && docker rm $DOCKER_CONTAINER && docker run -d -p $PORT --name $DOCKER_CONTAINER $DOCKER_IMAGE'
+        env:
+          DOCKER_IMAGE=fadilahonespot/simple-mvc:1.1.0
+          DOCKER_CONTAINER=simpe-mvc-apps
+          PORT=8000:8000
+

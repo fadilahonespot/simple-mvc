@@ -28,6 +28,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        env:
+          MYSQL_DB_HOST: ${{ secrets.DB_HOST }}
+          MYSQL_DB_PORT: ${{ secrets.DB_PORT }}
+          MYSQL_DB_USER: ${{ secrets.DB_USERNAME }}
+          MYSQL_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          MYSQL_DB_NAME: ${{ secrets.DB_NAME }}
 
       - name: SSH into EC2 and deploy
         uses: appleboy/ssh-action@master
@@ -44,11 +50,11 @@ jobs:
             docker rm simpe-mvc-apps || true
 
             # Set MySQL configuration as environment variables
-            export MYSQL_DB_HOST=${{ secrets.DB_HOST }}
-            export MYSQL_DB_USER=${{ secrets.DB_USERNAME }}
-            export MYSQL_DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-            export MYSQL_DB_PORT=${{ secrets.DB_PORT }}
-            export MYSQL_DB_NAME=${{ secrets.DB_NAME }}
+            # export MYSQL_DB_HOST=${{ secrets.DB_HOST }}
+            # export MYSQL_DB_USER=${{ secrets.DB_USERNAME }}
+            # export MYSQL_DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+            # export MYSQL_DB_PORT=${{ secrets.DB_PORT }}
+            # export MYSQL_DB_NAME=${{ secrets.DB_NAME }}
 
             # Run the Docker container with MySQL environment variables
             docker run -d -p 8000:8000 \

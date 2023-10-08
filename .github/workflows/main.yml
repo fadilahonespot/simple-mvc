@@ -52,11 +52,11 @@ jobs:
 
             # Run the Docker container with MySQL environment variables
             docker run -d -p 8000:8000 \
-              -e MYSQL_DB_HOST \
-              -e MYSQL_DB_USER \
-              -e MYSQL_DB_PASSWORD \
-              -e MYSQL_DB_PORT \
-              -e MYSQL_DB_NAME \
+              -e DB_HOST=MYSQL_DB_HOST \
+              -e DB_USERNAME=MYSQL_DB_USER \
+              -e DB_PASSWORD=MYSQL_DB_PASSWORD \
+              -e DB_PORT=MYSQL_DB_PORT \
+              -e DB_NAME=MYSQL_DB_NAME \
               --name simpe-mvc-apps \
               fadilahonespot/simple-mvc:1.2.0
 

@@ -33,7 +33,7 @@ jobs:
         run: |
           mkdir -p ~/.ssh/
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/fadilah.pem
-          chmod 400 ~/.ssh/fadilah.pem
+          chmod 600 ~/.ssh/fadilah.pem
 
       - name: SSH into EC2 and deploy
         uses: appleboy/ssh-action@master

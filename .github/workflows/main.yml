@@ -45,24 +45,17 @@ jobs:
             # Pull the Docker image from the registry
             docker pull fadilahonespot/simple-mvc:1.2.0
             
-            # Stop and remove any existing container (optional)
+            # Stop and remove any existing container
             docker stop simpe-mvc-apps || true
             docker rm simpe-mvc-apps || true
 
-            # Set MySQL configuration as environment variables
-            # export MYSQL_DB_HOST=${{ secrets.DB_HOST }}
-            # export MYSQL_DB_USER=${{ secrets.DB_USERNAME }}
-            # export MYSQL_DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-            # export MYSQL_DB_PORT=${{ secrets.DB_PORT }}
-            # export MYSQL_DB_NAME=${{ secrets.DB_NAME }}
-
             # Run the Docker container with MySQL environment variables
             docker run -d -p 8000:8000 \
-              -e DB_HOST=MYSQL_DB_HOST \
-              -e DB_USERNAME=MYSQL_DB_USER \
-              -e DB_PASSWORD=MYSQL_DB_PASSWORD \
-              -e DB_PORT=MYSQL_DB_PORT \
-              -e DB_NAME=MYSQL_DB_NAME \
+              -e DB_HOST=$MYSQL_DB_HOST \
+              -e DB_USERNAME=$MYSQL_DB_USER \
+              -e DB_PASSWORD=$MYSQL_DB_PASSWORD \
+              -e DB_PORT=$MYSQL_DB_PORT \
+              -e DB_NAME=$MYSQL_DB_NAME \
               --name simpe-mvc-apps \
               fadilahonespot/simple-mvc:1.2.0
 

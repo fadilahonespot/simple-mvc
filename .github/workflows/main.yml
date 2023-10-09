@@ -50,6 +50,7 @@ jobs:
             docker rm simpe-mvc-apps || true
 
             # Run the Docker container with MySQL environment variables
+            echo $MYSQL_DB_HOST
             docker run -d -p 8000:8000 \
               -e DB_HOST=$MYSQL_DB_HOST \
               -e DB_USERNAME=$MYSQL_DB_USER \

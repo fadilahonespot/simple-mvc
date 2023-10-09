@@ -29,11 +29,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         env:
-          MYSQL_DB_HOST: ${{ secrets.DB_HOST }}
-          MYSQL_DB_PORT: ${{ secrets.DB_PORT }}
-          MYSQL_DB_USER: ${{ secrets.DB_USERNAME }}
-          MYSQL_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          MYSQL_DB_NAME: ${{ secrets.DB_NAME }}
+          # MYSQL_DB_HOST: ${{ secrets.DB_HOST }}
+          # MYSQL_DB_PORT: ${{ secrets.DB_PORT }}
+          # MYSQL_DB_USER: ${{ secrets.DB_USERNAME }}
+          # MYSQL_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          # MYSQL_DB_NAME: ${{ secrets.DB_NAME }}
+          MYSQL_DB_HOST: db4free.net 
+          MYSQL_DB_PORT: 3306
+          MYSQL_DB_USER: fadilah
+          MYSQL_DB_PASSWORD: fadilah123
+          MYSQL_DB_NAME: fadilah_db
 
       - name: SSH into EC2 and deploy
         uses: appleboy/ssh-action@master
@@ -50,7 +55,10 @@ jobs:
             docker rm simpe-mvc-apps || true
 
             # Run the Docker container with MySQL environment variables
+            echo "CHEK ENV"
             echo $MYSQL_DB_HOST
+            echo ${{ secrets.DB_HOST }}
+            
             docker run -d -p 8000:8000 \
               -e DB_HOST=$MYSQL_DB_HOST \
               -e DB_USERNAME=$MYSQL_DB_USER \
